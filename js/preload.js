@@ -42,13 +42,13 @@ var PreloadState = {
         this.clouds.setAll('body.velocity.y', -20);
 
 
-        // this.preloadBar = this.add.sprite(this.game.world.centerX,120, 'loader');
-        // this.preloadBar.anchor.setTo(0.5);
-        // this.preloadBar.scale.setTo(1,2);
-        // this.load.setPreloadSprite(this.preloadBar);
-        // var style = { fill: '#fff'};
-        // var loading_text = this.game.add.text(xmid,123,"LOADING...", style);
-        // loading_text.anchor.setTo(0.5,0.5);
+        this.preloadBar = this.add.sprite(this.game.world.centerX,120, 'loader');
+        this.preloadBar.anchor.setTo(0.5);
+        this.preloadBar.scale.setTo(1,2);
+        this.load.setPreloadSprite(this.preloadBar);
+        var style = { fill: '#fff'};
+        var loading_text = this.game.add.text(xmid,123,"LOADING...", style);
+        loading_text.anchor.setTo(0.5,0.5);
     },
     loadUpdate: function () {
 
