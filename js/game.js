@@ -108,7 +108,7 @@ function createGame() {
 
 
     // The stud and its settings
-    stud = game.add.sprite(4200, ground_height - 160, 'dude');
+    stud = game.add.sprite(500, ground_height - 160, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -132,7 +132,6 @@ function createGame() {
 }
 
 function updateState() {
-    console.log(stud.x);
     game.physics.arcade.collide(stud, grass);
     game.camera.follow(stud,Phaser.Camera.FOLLOW_LOCKON);
 
