@@ -5,7 +5,7 @@
 var ground_height;
 var right_btn_on = false, left_btn_on = false;
 
-var grass;
+var grass,floor;
 var scoreText;
 
 var cursors;
@@ -19,6 +19,8 @@ var stones,targets,hitCount=0,coconuts;
 
 var results,resultShown=false;
 var schoolStart,schoolEnd,schoolRegion;
+
+var picker_crane;
 
 var restFrame = 3;
 
@@ -51,8 +53,8 @@ function createGame() {
     game.physics.arcade.enable(clouds);
 
     // Here we create the ground.
-    grass = game.add.tileSprite(0, ground_height + 30 , game_length ,1200, 'ground'); // Width set tile width; Height set tile height
-    game.add.tileSprite(0, ground_height, game_length ,50, 'grass'); // Width set tile width; Height set tile height
+    grass = game.add.tileSprite(0, ground_height + 30 , starting_ground ,1200, 'ground'); // Width set tile width; Height set tile height
+    game.add.tileSprite(0, ground_height, starting_ground ,50, 'grass'); // Width set tile width; Height set tile height
     game.physics.arcade.enable(grass);
     grass.body.immovable = true;
 
@@ -153,7 +155,6 @@ function createGame() {
         coconut = coconuts.create(item.x,item.y,'coconut');
         coconut['type'] = item.type;
     });
-    coconuts.enableBody = true;
     game.physics.arcade.enable(coconuts);
 
     // Bullets
@@ -162,6 +163,27 @@ function createGame() {
     stones.bulletSpeed = 400;
 
     game.physics.arcade.enable(stones);
+
+    //Adding level3
+    experience = game.add.sprite(9000,0,'experience');
+    experience.animations.add('play',[0,1],1,true);
+    experience.animations.play('play');
+
+    picker_crane = game.add.group();
+    for(i=ground_height-90;i+90>0;i-=90){
+        picker_crane.create(9800,i,'crane');
+        picker_crane.create(11000,i,'crane');
+    }
+    picker_crane.create(10200,ground_height-565,'warehouse');
+    game.physics.arcade.enable(picker_crane);
+
+    floor = game.add.tileSprite(starting_ground, ground_height, work_ground ,50, 'floor');
+    game.add.tileSprite(starting_ground, ground_height + 50, starting_ground ,400, 'panel');
+    game.physics.arcade.enable(floor);
+    floor.body.immovable = true;
+
+    game.add.sprite(9700,ground_height-492,'picker').scale.setTo(2);
+
 
 
     // Adding buttons to game
@@ -179,7 +201,7 @@ function createGame() {
 
 
     // The stud and its settings
-    stud = game.add.sprite(200, ground_height - 260, 'dude');
+    stud = game.add.sprite(8600, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -207,6 +229,7 @@ function updateState() {
     game.physics.arcade.collide(stud, grass);
     game.physics.arcade.collide(results, grass);
     game.physics.arcade.overlap(stones.bullets,coconuts,onStoneCoconutCollision,null,this);
+    game.physics.arcade.collide(stud, floor);
     game.camera.follow(stud,Phaser.Camera.FOLLOW_LOCKON);
 
     //  Reset the studs velocity (movement)
@@ -215,6 +238,9 @@ function updateState() {
         item.body.velocity.x = 0;
     }, this);
     clouds.forEach(function (item) {
+        item.body.velocity.x = 0;
+    }, this);
+    picker_crane.forEach(function (item) {
         item.body.velocity.x = 0;
     }, this);
 
@@ -228,6 +254,8 @@ function updateState() {
     if(stud.x > 7800 && stud.x < 8600)
         throwStones();
 
+    if(stud.x > 8800)
+        stud.body.y = ground_height - 180;
 
     if (cursors.left.isDown || left_btn_on) {
         moveLeft();
@@ -322,6 +350,10 @@ function moveRight() {
         clouds.forEach(function (item) {
             item.body.velocity.x = 150;
         }, this);
+        if(stud.x > 9000)
+            picker_crane.forEach(function (item) {
+                item.body.velocity.x = 50;
+            }, this);
     }
 }
 
@@ -342,5 +374,9 @@ function moveLeft() {
         clouds.forEach(function (item) {
             item.body.velocity.x = -150;
         }, this);
+        if(stud.x > 9000)
+            picker_crane.forEach(function (item) {
+                item.body.velocity.x = -50;
+            }, this);
     }
 }

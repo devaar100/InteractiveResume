@@ -100,5 +100,11 @@ function loadImages() {
     game.load.image('css-logo', 'assets/css-logo.png');
     game.load.image('flask-logo', 'assets/flask-logo.png');
     game.load.image('coconut', 'assets/coconut.png');
+    game.load.spritesheet('experience', 'assets/experience.png',375,100);
+    game.load.image('floor', 'assets/floor.png');
+    game.load.image('panel', 'assets/panel.png');
+    game.load.image('picker', 'assets/picker.png');
+    game.load.image('crane', 'assets/crane.png');
+    game.load.image('warehouse', 'assets/warehouse.png');
     game.load.spritesheet('dude', 'assets/dude.png', 200, 200);
 }
