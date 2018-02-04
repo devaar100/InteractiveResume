@@ -4,6 +4,7 @@
 var bgColor = '69c3fc';
 var BootState = {
     init: function() {
+        this.game.stage.backgroundColor = bgColor;
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
@@ -15,7 +16,6 @@ var BootState = {
         //this.load.spritesheet('skyDiving', 'assets/aarnav_skydiving.png', 330, 506,2);
     },
     create: function() {
-        this.game.stage.backgroundColor = bgColor;
         this.state.start('PreloadState');
     }
 };

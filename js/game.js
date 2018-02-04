@@ -14,7 +14,10 @@ var leftBtn,rightBtn;
 var stud;
 var mountains;
 var clouds;
-var results;
+var birds,birdsShown=false;
+var stones,targets,hitCount=0,coconuts;
+
+var results,resultShown=false;
 var schoolStart,schoolEnd,schoolRegion;
 
 var restFrame = 3;
@@ -53,22 +56,10 @@ function createGame() {
     game.physics.arcade.enable(grass);
     grass.body.immovable = true;
 
-    // Adding buttons to game
-    leftBtn = game.add.button(40, ground_height + 20, 'leftbtn',moveLeft,this);
-    leftBtn.fixedToCamera = true;
-    leftBtn.scale.setTo(1);
-    leftBtn.onInputDown.add(leftBtnClicked,this);
-    leftBtn.onInputUp.add(leftBtnNotClicked,this);
-
-    rightBtn = game.add.button(screen_width - 100, ground_height + 20, 'rightbtn',moveRight,this);
-    rightBtn.fixedToCamera = true;
-    rightBtn.scale.setTo(1);
-    rightBtn.onInputDown.add(rightBtnClicked,this);
-    rightBtn.onInputUp.add(rightBtnNotClicked,this);
-
     //Adding mountain
     mountains = game.add.group();
-    mountains.create(960,ground_height - 400,'mountain');
+    mountains.create(980,ground_height - 400,'mountain');
+    mountains.create(6000,ground_height - 400,'mountain');
     game.physics.arcade.enable(mountains);
 
 
@@ -84,11 +75,11 @@ function createGame() {
     game.add.sprite(380,ground_height - 550,'building-1').scale.setTo(1.5);
     game.add.sprite(530,ground_height - 350,'webdev').scale.setTo(1.6);
     game.add.sprite(410,ground_height - 380,'android').scale.setTo(1.75);
-    game.add.sprite(415,ground_height - 500,'welcome-banner').scale.setTo(0.75);
+    game.add.sprite(430,ground_height - 500,'welcome-banner').scale.setTo(0.75);
     game.add.sprite(380,ground_height - 140,'name-banner').scale.setTo(1.5);
 
 
-    //Adding levels
+    //Adding level 1
     about = game.add.sprite(1800,0,'about');
     about.animations.add('play',[0,1],1,true);
     about.animations.play('play');
@@ -98,17 +89,97 @@ function createGame() {
     game.add.sprite(2250,ground_height - 198,'milestone');
 
     schoolStart = 3900;
-    schoolEnd = schoolStart + 1280;
+    schoolEnd = schoolStart + 2100;
     game.add.sprite(schoolStart ,ground_height - 330,'school').scale.setTo(1.5);
 
+    style_black = { font:"20px Roboto",fill:"#000",align:"center"};
     results = game.add.group();
-    results.create(4800,ground_height-240,'result');
+    results.create(4750,0,'result');
+    results.create(4970,0,'result').scale.setTo(1.2);
+    game.add.text(4800,ground_height-230,'Class 10\n10 CGPA',style_black);
+    game.add.text(5030,ground_height-270,'Class 12\nCBSE 96%',style_black);
 
-    game.add.sprite(5650 ,ground_height - 450,'college');
+    game.add.sprite(5300 ,ground_height - 450,'college');
+
+    //Adding level 2
+    skills = game.add.sprite(6100,0,'skills');
+    skills.animations.add('play',[0,1],1,true);
+    skills.animations.play('play');
+
+    //Languages
+    game.add.sprite(6850,ground_height - 550,'language-banner');
+    game.add.sprite(6708-30,ground_height - 400,'cpp');
+    game.add.sprite(6682-30,ground_height - 300,'java');
+    game.add.sprite(6653-30,ground_height - 200,'python');
+    game.add.sprite(6600-30,ground_height - 100,'js');
+    game.add.sprite(6800,ground_height - 450,'beginner').scale.setTo(1.25);
+    game.add.sprite(7000,ground_height - 450,'familiar').scale.setTo(1.25);
+    game.add.sprite(7200,ground_height - 450,'expert').scale.setTo(1.25);
+    game.add.sprite(7400,ground_height - 450,'master').scale.setTo(1.25);
+
+    birds = game.add.group();
+    arr = [
+        { birds:3 , y:400 },
+        { birds:2 , y:300 },
+        { birds:2 , y:200 },
+        { birds:2 , y:100 }];
+    arr.forEach(function (item) {
+        x = 7605;
+        for(i=0;i<item.birds;i++,x+=200) {
+            bird = birds.create(x, ground_height - item.y, 'bird');
+            bird.scale.setTo(0.5);
+            bird['group'] = 5- (item.y / 100);
+            bird['i'] = i;
+        }
+    });
+
+    // Frameworks
+    game.add.sprite(7950,ground_height - 550,'framework-banner');
+    game.add.sprite(7600,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    game.add.sprite(7800,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    game.add.sprite(8000,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    game.add.sprite(8200,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    game.add.sprite(8400,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    //Target
+    targets = [
+        {x:7820,y:ground_height-280,type:'html-logo'},
+        {x:8020,y:ground_height-280,type:'css-logo'},
+        {x:8220,y:ground_height-280,type:'js-logo'},
+        {x:8420,y:ground_height-280,type:'flask-logo'},
+        {x:8620,y:ground_height-280,type:'android-logo'}
+    ];
+    coconuts = game.add.group();
+    targets.forEach((item)=>{
+        coconut = coconuts.create(item.x,item.y,'coconut');
+        coconut['type'] = item.type;
+    });
+    coconuts.enableBody = true;
+    game.physics.arcade.enable(coconuts);
+
+    // Bullets
+    stones = game.add.weapon(1,'stone');
+    stones.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    stones.bulletSpeed = 400;
+
+    game.physics.arcade.enable(stones);
+
+
+    // Adding buttons to game
+    leftBtn = game.add.button(40, ground_height + 20, 'leftbtn',moveLeft,this);
+    leftBtn.fixedToCamera = true;
+    leftBtn.scale.setTo(1);
+    leftBtn.onInputDown.add(leftBtnClicked,this);
+    leftBtn.onInputUp.add(leftBtnNotClicked,this);
+
+    rightBtn = game.add.button(screen_width - 100, ground_height + 20, 'rightbtn',moveRight,this);
+    rightBtn.fixedToCamera = true;
+    rightBtn.scale.setTo(1);
+    rightBtn.onInputDown.add(rightBtnClicked,this);
+    rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
 
     // The stud and its settings
-    stud = game.add.sprite(500, ground_height - 160, 'dude');
+    stud = game.add.sprite(200, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -122,6 +193,7 @@ function createGame() {
     stud.animations.add('right',[4,5],6,true);
     stud.animations.add('school-left',[7,6],6,true);
     stud.animations.add('school-right',[10,11],6,true);
+    stones.trackSprite(stud, 25, 100);
 
     //  The fixed text on screen
     // scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -133,6 +205,8 @@ function createGame() {
 
 function updateState() {
     game.physics.arcade.collide(stud, grass);
+    game.physics.arcade.collide(results, grass);
+    game.physics.arcade.overlap(stones.bullets,coconuts,onStoneCoconutCollision,null,this);
     game.camera.follow(stud,Phaser.Camera.FOLLOW_LOCKON);
 
     //  Reset the studs velocity (movement)
@@ -145,6 +219,15 @@ function updateState() {
     }, this);
 
     inSchool(); // Checks stud in school region
+    if(!resultShown && stud.x > 4100)
+        fallResult();
+
+    if(!birdsShown && stud.x > 6300)
+        flyBirds();
+
+    if(stud.x > 7800 && stud.x < 8600)
+        throwStones();
+
 
     if (cursors.left.isDown || left_btn_on) {
         moveLeft();
@@ -165,8 +248,48 @@ function renderStud() {
     //stud.x += 20;
 }
 
+function fallResult() {
+    game.physics.arcade.enable(results);
+    results.forEach(function (item) {
+        item.body.y = 0;
+        item.body.bounce.y = 0.4;
+        item.body.gravity.y = 300;
+    }, this);
+    resultShown = true;
+}
+
+function flyBirds() {
+    game.physics.arcade.enable(birds);
+    birds.forEach(function (item) {
+        setTimeout(()=>{
+                game.add.tween(item).to({x:item.body.x-800},400,Phaser.Easing.Default, true).start();
+            },item['group']*400+item['i']*100);
+    }, this);
+    birdsShown = true;
+}
+
+function throwStones(){
+    if(hitCount>=5)
+        return;
+    if(targets[hitCount].x+100<game.camera.x+screen_width)
+        stones.fireAtXY(targets[hitCount].x,targets[hitCount].y);
+}
+
 function inSchool(){
     schoolRegion = (stud.x > schoolStart-50 && stud.x < schoolEnd-150);
+}
+
+function onStoneCoconutCollision(stone,coconut) {
+    fruit = coconut;
+    stone.kill();
+    coconut.kill();
+    hitCount++;
+    logo = game.add.sprite(fruit.x,fruit.y,fruit.type);
+    logo.scale.setTo(0.5,0.5);
+    logo.anchor.setTo(0.5,0.5);
+    game.add.tween(logo).to({y:ground_height-320},300).start();
+    game.add.tween(logo.scale).to({y:0.9,x:0.9},500).start();
+
 }
 
 function rightBtnClicked() {
@@ -192,9 +315,9 @@ function moveRight() {
         restFrame = 3;
         stud.animations.play('right');
     }
-    if(stud.body.x > 500 && stud.body.x + stud.body.width < game_length) {
+    if(stud.x > 500 && stud.x + stud.body.width < game_length) {
         mountains.forEach(function (item) {
-            item.body.velocity.x = 40;
+            item.body.velocity.x = 50;
         }, this);
         clouds.forEach(function (item) {
             item.body.velocity.x = 150;
@@ -212,9 +335,9 @@ function moveLeft() {
         restFrame = 2;
         stud.animations.play('left');
     }
-    if(stud.body.x > 500 ) {
+    if(stud.x > 500 ) {
         mountains.forEach(function (item) {
-            item.body.velocity.x = -40;
+            item.body.velocity.x = -50;
         }, this);
         clouds.forEach(function (item) {
             item.body.velocity.x = -150;
