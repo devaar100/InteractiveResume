@@ -1,0 +1,14 @@
+@font-face{
+    font-family: "frank_plain";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/Frankfurter-Plain.ttf");
+}
+
+@font-face{
+    font-family: "frank_medium";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/Frankfurter-Medium.ttf");
+}
+

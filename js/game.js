@@ -5,7 +5,7 @@
 var ground_height;
 var right_btn_on = false, left_btn_on = false;
 
-var grass,floor;
+var grass,floor,sand;
 var scoreText;
 
 var cursors;
@@ -21,6 +21,7 @@ var results,resultShown=false;
 var schoolStart,schoolEnd,schoolRegion;
 
 var picker_crane;
+var risers,app_logos,risen=false;
 
 var restFrame = 3;
 
@@ -94,12 +95,12 @@ function createGame() {
     schoolEnd = schoolStart + 2100;
     game.add.sprite(schoolStart ,ground_height - 330,'school').scale.setTo(1.5);
 
-    style_black = { font:"20px Roboto",fill:"#000",align:"center"};
+    result_font = { font:"20px Roboto",fill:"#000",align:"center"};
     results = game.add.group();
     results.create(4750,0,'result');
     results.create(4970,0,'result').scale.setTo(1.2);
-    game.add.text(4800,ground_height-230,'Class 10\n10 CGPA',style_black);
-    game.add.text(5030,ground_height-270,'Class 12\nCBSE 96%',style_black);
+    game.add.text(4800,ground_height-230,'Class 10\n10 CGPA',result_font);
+    game.add.text(5030,ground_height-270,'Class 12\nCBSE 96%',result_font);
 
     game.add.sprite(5300 ,ground_height - 450,'college');
 
@@ -164,10 +165,17 @@ function createGame() {
 
     game.physics.arcade.enable(stones);
 
+    //Adding risers
+    risers = game.add.group();
+    risers.create(12150,ground_height,'riser');
+    risers.create(12630,ground_height,'riser');
+    risers.create(13150,ground_height,'riser');
+    risers.create(13720,ground_height,'riser');
+    game.physics.arcade.enable(risers);
+
     //Adding level3
-    experience = game.add.sprite(9000,0,'experience');
-    experience.animations.add('play',[0,1],1,true);
-    experience.animations.play('play');
+    game.add.sprite(9000,-25,'bill-board').scale.setTo(0.7);
+    game.add.text(9035,60,'EXPERIENCE',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
 
     picker_crane = game.add.group();
     for(i=ground_height-90;i+90>0;i-=90){
@@ -178,12 +186,64 @@ function createGame() {
     game.physics.arcade.enable(picker_crane);
 
     floor = game.add.tileSprite(starting_ground, ground_height, work_ground ,50, 'floor');
-    game.add.tileSprite(starting_ground, ground_height + 50, starting_ground ,400, 'panel');
+    game.add.tileSprite(starting_ground, ground_height + 50, work_ground ,400, 'panel');
     game.physics.arcade.enable(floor);
     floor.body.immovable = true;
 
-    game.add.sprite(9700,ground_height-492,'picker').scale.setTo(2);
+    game.add.sprite(9700,ground_height-280,'worksite-banner');
+    game.add.sprite(10300,ground_height-280,'worksite-banner');
+    game.add.sprite(10700,ground_height-110,'cb');
+    game.add.sprite(10900,ground_height-280,'worksite-banner');
+    game.add.sprite(11300,ground_height-110,'cb');
 
+    exp_plain = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
+    exp_med = { font:"30px frank_medium",fill:"#ffffff",align:"center"};
+    exp_txt = { font:"15px arial", fill: "#ffffff"};
+
+    game.add.text(9740,ground_height-240,'May 2017 - Oct 2017',exp_med);
+    game.add.text(9740,ground_height-210,'NSS-SA',exp_plain);
+    game.add.text(9740,ground_height-160,'Science and Mathematics teacher for secondary classes for\nunder privileged children at NSS Shiksha Abhiyaan',exp_txt);
+
+    game.add.text(9740+600,ground_height-240,'Sep 2017 - Nov 2017',exp_med);
+    game.add.text(9740+600,ground_height-210,'TEACHER ASSISTANT',exp_plain);
+    game.add.text(9740+600,ground_height-160,'Teacher assistant for advanced data structures and algorithms\nAlgo++ course at Coding Blocks',exp_txt);
+
+    game.add.text(9740+1200,ground_height-240,'Dec 2017 - Jan 2018',exp_med);
+    game.add.text(9740+1200,ground_height-210,'ANDROID INTERN',exp_plain);
+    game.add.text(9740+1200,ground_height-160,'Internship in android department at Coding Blocks under able\nguidance of Mr Prateek Narang and Mr Arnav Gupta',exp_txt);
+
+    //Adding level4
+    game.add.sprite(11700,-25,'bill-board').scale.setTo(0.7);
+
+    game.add.text(11745,60,'PROJECTS',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
+
+    exp_txt.font = "20px arial";
+    exp_txt.fill = "#777777";
+    exp_plain.fill = "#444";
+    app_logos = game.add.group();
+    app_logos.create(12620,ground_height-145,'dtures-logo');
+    game.add.text(12775,ground_height-330,'DTU RESOURCES',exp_plain);
+    game.add.text(12775,ground_height-280,'An application for all the study material\nand essential information to make\ncollege life hassle free for DTUiites',exp_txt);
+    app_logos.create(12158,ground_height-145,'gforms-logo');
+    game.add.text(12290,ground_height-330,'G-FORMS',exp_plain);
+    game.add.text(12290,ground_height-280,'An android application for google\nforms to create, edit google forms\nand manage responses on the go',exp_txt);
+    app_logos.create(13125,ground_height-145,'db-security');
+    game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain);
+    game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt);
+    game.physics.arcade.enable(app_logos);
+    app_logos.create(13705,ground_height-145,'attendance-logo');
+    game.add.text(13880,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
+    game.add.text(13880,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
+    game.physics.arcade.enable(app_logos);
+
+    //Adding level5
+    sand = game.add.tileSprite(starting_ground+work_ground, ground_height, beach_ground ,(game_height-ground_height)*3/5, 'sand');
+    game.add.tileSprite(starting_ground+work_ground, ground_height + (game_height-ground_height)*3/5-6, work_ground ,6, 'seawave');
+    game.add.tileSprite(starting_ground+work_ground, ground_height + (game_height-ground_height)*3/5, work_ground ,400, 'sea');
+    game.physics.arcade.enable(sand);
+    sand.body.immovable = true;
+
+    //game.add.sprite(8400,ground_height - 460,'coco-tree').scale.setTo(1.2);
 
 
     // Adding buttons to game
@@ -201,7 +261,7 @@ function createGame() {
 
 
     // The stud and its settings
-    stud = game.add.sprite(300, ground_height - 260, 'dude');
+    stud = game.add.sprite(13000, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -228,6 +288,8 @@ function createGame() {
 function updateState() {
     game.physics.arcade.collide(stud, grass);
     game.physics.arcade.collide(results, grass);
+    game.physics.arcade.collide(risers, app_logos);
+    game.physics.arcade.collide(stud, sand);
     game.physics.arcade.overlap(stones.bullets,coconuts,onStoneCoconutCollision,null,this);
     game.physics.arcade.collide(stud, floor);
     game.camera.follow(stud,Phaser.Camera.FOLLOW_LOCKON);
@@ -254,8 +316,11 @@ function updateState() {
     if(stud.x > 7800 && stud.x < 8600)
         throwStones();
 
-    if(stud.x > 8800)
+    if(stud.x > 8800 && stud.x < 14000)
         stud.body.y = ground_height - 180;
+
+    if(!risen && stud.x > 11800)
+        raiseRisers();
 
     if (cursors.left.isDown || left_btn_on) {
         moveLeft();
@@ -274,6 +339,16 @@ function renderStud() {
     // entryTween.to({alpha:1},2000);
     // entryTween.start();
     //stud.x += 20;
+}
+
+function raiseRisers(){
+    risen = true;
+    risers.forEach((item)=>{
+        game.add.tween(item).to({y: ground_height-200 }, 1500).start();
+    });
+    app_logos.forEach((item)=>{
+        game.add.tween(item).to({y: ground_height-200-145 }, 1500).start();
+    });
 }
 
 function fallResult() {
@@ -352,7 +427,7 @@ function moveRight() {
         }, this);
         if(stud.x > 9000)
             picker_crane.forEach(function (item) {
-                item.body.velocity.x = 50;
+                item.body.velocity.x = 60;
             }, this);
     }
 }
@@ -376,7 +451,7 @@ function moveLeft() {
         }, this);
         if(stud.x > 9000)
             picker_crane.forEach(function (item) {
-                item.body.velocity.x = -50;
+                item.body.velocity.x = -60;
             }, this);
     }
 }

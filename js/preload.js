@@ -100,11 +100,20 @@ function loadImages() {
     game.load.image('css-logo', 'assets/css-logo.png');
     game.load.image('flask-logo', 'assets/flask-logo.png');
     game.load.image('coconut', 'assets/coconut.png');
-    game.load.spritesheet('experience', 'assets/experience.png',375,100);
+    game.load.image('bill-board', 'assets/bill-board.png');
     game.load.image('floor', 'assets/floor.png');
     game.load.image('panel', 'assets/panel.png');
-    game.load.image('picker', 'assets/picker.png');
     game.load.image('crane', 'assets/crane.png');
     game.load.image('warehouse', 'assets/warehouse.png');
+    game.load.image('worksite-banner', 'assets/worksite-banner.png');
+    game.load.image('cb', 'assets/cb.png');
+    game.load.image('attendance-logo', 'assets/attendance-logo.png');
+    game.load.image('dtures-logo', 'assets/dtures-logo.png');
+    game.load.image('gforms-logo', 'assets/gforms-logo.png');
+    game.load.image('riser', 'assets/riser.png');
+    game.load.image('sand', 'assets/sand.png');
+    game.load.image('sea', 'assets/sea.png');
+    game.load.image('seawave', 'assets/seawave.png');
+    game.load.image('db-security', 'assets/db-security.png');
     game.load.spritesheet('dude', 'assets/dude.png', 200, 200);
 }
