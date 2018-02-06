@@ -115,5 +115,14 @@ function loadImages() {
     game.load.image('sea', 'assets/sea.png');
     game.load.image('seawave', 'assets/seawave.png');
     game.load.image('db-security', 'assets/db-security.png');
+    game.load.image('achievements', 'assets/achievements.png');
+    game.load.image('hut1', 'assets/hut1.png');
+    game.load.image('hut2', 'assets/hut2.png');
+    game.load.image('hut3', 'assets/hut3.png');
+    game.load.image('statue1', 'assets/statue1.png');
+    game.load.image('statue2', 'assets/statue2.png');
+    game.load.image('statue3', 'assets/statue3.png');
+    game.load.image('wooden-bg', 'assets/wooden-bg.jpg');
     game.load.spritesheet('dude', 'assets/dude.png', 200, 200);
+    game.load.spritesheet('doggy', 'assets/baddie.png', 48, 48);
 }

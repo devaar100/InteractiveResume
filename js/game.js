@@ -25,6 +25,9 @@ var risers,app_logos,risen=false;
 
 var restFrame = 3;
 
+var beachStart,beachEnd,beachRegion=false;
+var doggy,doggyVelolcity=0,dogRestFrame=1;
+
 var GameState = {
     init: function() {
         console.log("In init");
@@ -170,7 +173,7 @@ function createGame() {
     risers.create(12150,ground_height,'riser');
     risers.create(12630,ground_height,'riser');
     risers.create(13150,ground_height,'riser');
-    risers.create(13720,ground_height,'riser');
+    risers.create(13740,ground_height,'riser');
     game.physics.arcade.enable(risers);
 
     //Adding level3
@@ -231,19 +234,60 @@ function createGame() {
     game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain);
     game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt);
     game.physics.arcade.enable(app_logos);
-    app_logos.create(13705,ground_height-145,'attendance-logo');
-    game.add.text(13880,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
-    game.add.text(13880,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
+    app_logos.create(13725,ground_height-145,'attendance-logo');
+    game.add.text(13900,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
+    game.add.text(13900,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
     game.physics.arcade.enable(app_logos);
 
     //Adding level5
-    sand = game.add.tileSprite(starting_ground+work_ground, ground_height, beach_ground ,(game_height-ground_height)*3/5, 'sand');
-    game.add.tileSprite(starting_ground+work_ground, ground_height + (game_height-ground_height)*3/5-6, work_ground ,6, 'seawave');
-    game.add.tileSprite(starting_ground+work_ground, ground_height + (game_height-ground_height)*3/5, work_ground ,400, 'sea');
+    beachStart = starting_ground+work_ground;
+    beachEnd = beachStart + beach_ground;
+
+    game.add.sprite(beachStart+10,0,'achievements');
+    exp_plain.fill = "#ffffff";
+    game.add.text(beachStart+50,35,'ACHIEVEMENTS',exp_plain);
+    sand = game.add.tileSprite(beachStart, ground_height, beach_ground ,(game_height-ground_height)*3/5, 'sand');
+    game.add.tileSprite(beachStart, ground_height + (game_height-ground_height)*3/5-6, beach_ground ,6, 'seawave');
+    game.add.tileSprite(beachStart, ground_height + (game_height-ground_height)*3/5, beach_ground ,400, 'sea');
     game.physics.arcade.enable(sand);
     sand.body.immovable = true;
 
-    //game.add.sprite(8400,ground_height - 460,'coco-tree').scale.setTo(1.2);
+    beachDecor = game.add.group();
+    for(i=0;i<3;i++)
+        beachDecor.create(beachStart+600+i*1000,ground_height-600,'coco-tree');
+    game.physics.arcade.enable(beachDecor);
+    beachDecor.forEach((item)=>{
+        item.scale.setTo(1.5);
+    });
+
+    exp_txt.fill = '#ffffff';
+    game.add.sprite(beachStart+520,ground_height-490,'hut1').scale.setTo(1.25);
+    game.add.sprite(beachStart+820,ground_height-270,'wooden-bg').scale.setTo(1.25);
+    game.add.text(beachStart+860,ground_height-250,'ZafinTech Hackathon',exp_med);
+    game.add.text(beachStart+860,ground_height-215,'3RD PRIZE',exp_plain);
+    game.add.text(beachStart+860,ground_height-160,'National level hackathon to design\nuser friendly mobile banking app to\nincrease user engagement',exp_txt);
+    game.add.sprite(beachStart+1200,ground_height-200,'statue1').scale.setTo(1.5);
+
+    game.add.sprite(beachStart+1480,ground_height-490,'hut2').scale.setTo(1.25);
+    game.add.sprite(beachStart+1790,ground_height-270,'wooden-bg').scale.setTo(1.25);
+    game.add.text(beachStart+1830,ground_height-250,'DCB Hackathon',exp_med);
+    game.add.text(beachStart+1830,ground_height-215,'4TH PRIZE',exp_plain);
+    game.add.text(beachStart+1830,ground_height-160,'National level hackathon to design\nsafe, quicker and more efficient\npayment solution',exp_txt);
+    game.add.sprite(beachStart+2170,ground_height-200,'statue2').scale.setTo(1.5);
+
+    game.add.sprite(beachStart+2520,ground_height-490,'hut3').scale.setTo(1.25);
+    game.add.sprite(beachStart+2820,ground_height-270,'wooden-bg').scale.setTo(1.25);
+    game.add.text(beachStart+2860,ground_height-250,'Vistara Hackathon',exp_med);
+    game.add.text(beachStart+2860,ground_height-215,'3RD PRIZE',exp_plain);
+    game.add.text(beachStart+2860,ground_height-160,'National level hackathon to improve\nflight and airport efficiency,\nexperience and management ',exp_txt);
+    game.add.sprite(beachStart+3200,ground_height-200,'statue3').scale.setTo(1.5);
+
+
+    //Adding level6
+    seaStart = beachEnd;
+    seaEnd = seaStart + sea_length;
+    game.add.tileSprite(seaStart, ground_height+16, sea_length ,6, 'seawave');
+    game.add.tileSprite(seaStart, ground_height+22, sea_length ,400, 'sea');
 
 
     // Adding buttons to game
@@ -259,9 +303,8 @@ function createGame() {
     rightBtn.onInputDown.add(rightBtnClicked,this);
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
-
     // The stud and its settings
-    stud = game.add.sprite(300, ground_height - 260, 'dude');
+    stud = game.add.sprite(400, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -275,7 +318,18 @@ function createGame() {
     stud.animations.add('right',[4,5],6,true);
     stud.animations.add('school-left',[7,6],6,true);
     stud.animations.add('school-right',[10,11],6,true);
+    stud.animations.add('beach-left',[13,12],6,true);
+    stud.animations.add('beach-right',[16,17],6,true);
     stones.trackSprite(stud, 25, 100);
+
+
+    doggy = game.add.sprite(beachStart+400,ground_height-48,'doggy');
+    game.physics.arcade.enable(doggy);
+
+    doggy.body.collideWorldBounds = true;
+    doggy.animations.add('left',[1,0],6,true);
+    doggy.animations.add('right',[2,3],6,true);
+
 
     //  The fixed text on screen
     // scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -296,6 +350,7 @@ function updateState() {
 
     //  Reset the studs velocity (movement)
     stud.body.velocity.x = 0;
+    doggy.body.velocity.x = 0;
     mountains.forEach(function(item) {
         item.body.velocity.x = 0;
     }, this);
@@ -307,6 +362,9 @@ function updateState() {
     }, this);
 
     inSchool(); // Checks stud in school region
+    onBeach();
+    isWithDog();
+
     if(!resultShown && stud.x > 4100)
         fallResult();
 
@@ -330,7 +388,9 @@ function updateState() {
     }
     else {
         stud.animations.stop();
+        doggy.animations.stop();
         stud.frame = restFrame;
+        doggy.frame = dogRestFrame;
     }
 }
 
@@ -339,6 +399,21 @@ function renderStud() {
     // entryTween.to({alpha:1},2000);
     // entryTween.start();
     //stud.x += 20;
+}
+
+function isWithDog(){
+    if(stud.x < beachStart +400 || stud.x+stud.width+150 > beachEnd)
+        doggyVelolcity = 0;
+    else if(restFrame==14 && doggy.x+doggy.width+10>stud.x)
+        doggyVelolcity = 450;
+    else if(restFrame==15 && doggy.x<stud.x+stud.width+10)
+        doggyVelolcity = 450;
+    else
+        doggyVelolcity = 350;
+}
+
+function onBeach(){
+    beachRegion = ( stud.x+stud.width/2 > beachStart && stud.x+stud.width/2 <beachEnd );
 }
 
 function raiseRisers(){
@@ -379,7 +454,7 @@ function throwStones(){
 }
 
 function inSchool(){
-    schoolRegion = (stud.x > schoolStart-50 && stud.x < schoolEnd-150);
+    schoolRegion = (stud.x+stud.width/2 > schoolStart && stud.x+stud.width/2 < schoolEnd);
 }
 
 function onStoneCoconutCollision(stone,coconut) {
@@ -410,11 +485,17 @@ function leftBtnNotClicked() {
 
 function moveRight() {
     stud.body.velocity.x = 350;
+    doggy.body.velocity.x = doggyVelolcity;
     if(schoolRegion) {
         restFrame = 9;
         stud.animations.play('school-right');
-    }
-    else {
+    } else if(beachRegion){
+        restFrame = 15;
+        dogRestFrame = 2;
+        stud.animations.play('beach-right');
+        if(doggyVelolcity!=0)
+            doggy.animations.play('right');
+    } else {
         restFrame = 3;
         stud.animations.play('right');
     }
@@ -434,11 +515,17 @@ function moveRight() {
 
 function moveLeft() {
     stud.body.velocity.x = -350;
+    doggy.body.velocity.x = -1*doggyVelolcity;
     if(schoolRegion) {
         restFrame = 8;
         stud.animations.play('school-left');
-    }
-    else {
+    } else if(beachRegion){
+        restFrame = 14;
+        dogRestFrame = 1;
+        stud.animations.play('beach-left');
+        if(doggyVelolcity!=0)
+            doggy.animations.play('left');
+    } else {
         restFrame = 2;
         stud.animations.play('left');
     }
