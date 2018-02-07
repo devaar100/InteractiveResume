@@ -357,7 +357,7 @@ function updateState() {
         flyBirds();
     else if(stud.x > 7800 && stud.x < 8600)
         throwStones();
-    else if(stud.x > 8800 && stud.x < 14000)
+    else if(stud.x > 8800 && stud.x < 8950)
         stud.body.y = ground_height - 180;
     else if(!risen && stud.x > 11800)
         raiseRisers();
