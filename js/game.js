@@ -6,7 +6,6 @@ var ground_height;
 var right_btn_on = false, left_btn_on = false;
 
 var grass,floor,sand;
-var scoreText;
 
 var cursors;
 var leftBtn,rightBtn;
@@ -27,6 +26,12 @@ var restFrame = 3;
 
 var beachStart,beachEnd,beachRegion=false;
 var doggy,doggyVelolcity=0,dogRestFrame=1;
+
+var seaStart,seaEnd;
+
+var boat,jetski;
+var heroToFollow;
+var interests,interest_shown=false;
 
 var GameState = {
     init: function() {
@@ -286,9 +291,33 @@ function createGame() {
     //Adding level6
     seaStart = beachEnd;
     seaEnd = seaStart + sea_length;
+    boat = game.add.sprite(seaStart+20,ground_height-90,'jetski');
+    jetski = game.add.sprite(seaStart+20,ground_height-180,'sea-boat');
+    jetski.alpha = 0;
+    jetski.animations.add('left',[1,0],6,true);
+    jetski.animations.add('right',[2,3],6,true);
+    game.physics.arcade.enable(jetski);
     game.add.tileSprite(seaStart, ground_height+16, sea_length ,6, 'seawave');
     game.add.tileSprite(seaStart, ground_height+22, sea_length ,400, 'sea');
+    game.add.sprite(beachEnd+10,0,'achievements').scale.setTo(1.15,1);
+    game.add.text(beachEnd+50,35,'OTHER INTERESTS',exp_plain);
 
+    exp_plain.fill = "#000";
+    interests = game.add.group();
+    i1 = interests.create(seaStart+800,100,'business');
+    i1.scale.setTo(0.8);
+    i1.alpha = 0;
+    game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain);
+
+    i2 = interests.create(seaStart+1400,100,'economics');
+    i2.scale.setTo(0.8);
+    i2.alpha = 0;
+    game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain);
+
+    i3 = interests.create(seaStart+2100,100,'sports');
+    i3.scale.setTo(0.8);
+    i3.alpha = 0;
+    game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain);
 
     // Adding buttons to game
     leftBtn = game.add.button(40, ground_height + 20, 'leftbtn',moveLeft,this);
@@ -304,7 +333,7 @@ function createGame() {
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
     // The stud and its settings
-    stud = game.add.sprite(400, ground_height - 260, 'dude');
+    stud = game.add.sprite(17500, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -337,6 +366,7 @@ function createGame() {
 
     //  Our controls
     cursors = game.input.keyboard.createCursorKeys();
+    heroToFollow = stud;
 }
 
 function updateState() {
@@ -346,11 +376,12 @@ function updateState() {
     game.physics.arcade.collide(stud, sand);
     game.physics.arcade.overlap(stones.bullets,coconuts,onStoneCoconutCollision,null,this);
     game.physics.arcade.collide(stud, floor);
-    game.camera.follow(stud,Phaser.Camera.FOLLOW_LOCKON);
+    game.camera.follow(heroToFollow,Phaser.Camera.FOLLOW_LOCKON);
 
     //  Reset the studs velocity (movement)
     stud.body.velocity.x = 0;
     doggy.body.velocity.x = 0;
+    jetski.body.velocity.x = 0;
     mountains.forEach(function(item) {
         item.body.velocity.x = 0;
     }, this);
@@ -380,6 +411,9 @@ function updateState() {
     if(!risen && stud.x > 11800)
         raiseRisers();
 
+    if(!interest_shown && jetski.x+jetski.width > seaStart+500)
+        showInterests();
+
     if (cursors.left.isDown || left_btn_on) {
         moveLeft();
     }
@@ -394,26 +428,30 @@ function updateState() {
     }
 }
 
-function renderStud() {
-    // var entryTween = game.add.tween(stud);
-    // entryTween.to({alpha:1},2000);
-    // entryTween.start();
-    //stud.x += 20;
+function showInterests(){
+    interest_shown = true;
+    i=0;
+    interests.forEach((item)=>{
+        setTimeout(()=>{
+            game.add.tween(item).to({alpha: 1 }, 3500).start();
+        },i*1000);
+        i++;
+    });
 }
 
 function isWithDog(){
     if(stud.x < beachStart +400 || stud.x+stud.width+150 > beachEnd)
         doggyVelolcity = 0;
-    else if(restFrame==14 && doggy.x+doggy.width+10>stud.x)
+    else if(restFrame==14 && doggy.x+doggy.width>stud.x)
         doggyVelolcity = 450;
-    else if(restFrame==15 && doggy.x<stud.x+stud.width+10)
+    else if(restFrame==15 && doggy.x<stud.x+stud.width)
         doggyVelolcity = 450;
     else
         doggyVelolcity = 350;
 }
 
 function onBeach(){
-    beachRegion = ( stud.x+stud.width/2 > beachStart && stud.x+stud.width/2 <beachEnd );
+    beachRegion = ( stud.x+stud.width/2 > beachStart && stud.x+stud.width <beachEnd);
 }
 
 function raiseRisers(){
@@ -495,6 +533,17 @@ function moveRight() {
         stud.animations.play('beach-right');
         if(doggyVelolcity!=0)
             doggy.animations.play('right');
+    } else if(stud.x+stud.width > beachEnd){
+        if(boat.alpha!=0) {
+            boat.alpha = 0;
+            stud.alpha = 0;
+            doggy.alpha = 0;
+            jetski.alpha = 1;
+            heroToFollow = jetski;
+        }
+        stud.body.velocity.x = 0;
+        jetski.body.velocity.x = 350;
+        jetski.animations.play('right');
     } else {
         restFrame = 3;
         stud.animations.play('right');
@@ -525,6 +574,27 @@ function moveLeft() {
         stud.animations.play('beach-left');
         if(doggyVelolcity!=0)
             doggy.animations.play('left');
+    } else if(jetski.x > beachEnd + 20){
+        if(boat.alpha!=0) {
+            boat.alpha = 0;
+            stud.alpha = 0;
+            doggy.alpha = 0;
+            jetski.alpha = 1;
+            heroToFollow = jetski;
+        }
+        stud.body.velocity.x = 0;
+        jetski.body.velocity.x = -350;
+        jetski.animations.play('left');
+    } else if(jetski.x > beachEnd && jetski.x < beachEnd + 20){
+        boat.alpha = 1;
+        stud.alpha = 1;
+        doggy.alpha = 1;
+        jetski.alpha = 0;
+        restFrame = 14;
+        dogRestFrame = 1;
+        heroToFollow = stud;
+        stud.animations.play('beach-left');
+        doggy.animations.play('left');
     } else {
         restFrame = 2;
         stud.animations.play('left');
