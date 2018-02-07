@@ -128,6 +128,13 @@ function loadImages() {
     game.load.image('economics', 'assets/economics.png');
     game.load.image('sports', 'assets/sports.png');
     game.load.image('jetski2', 'assets/jetski2.png');
+    game.load.image('hut', 'assets/hut.png');
+    game.load.image('fb', 'assets/fb.png');
+    game.load.image('github', 'assets/github.png');
+    game.load.image('gmail', 'assets/gmail.png');
+    game.load.image('hackerrank', 'assets/hackerrank.png');
+    game.load.image('linkedin', 'assets/linkedin.png');
+    game.load.image('resume', 'assets/resume.png');
     game.load.spritesheet('sea-boat', 'assets/sea-boat.png', 385, 240);
     game.load.spritesheet('dude', 'assets/dude.png', 200, 200);
     game.load.spritesheet('doggy', 'assets/baddie.png', 48, 48);

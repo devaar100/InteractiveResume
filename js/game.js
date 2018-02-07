@@ -2,6 +2,11 @@
  * Created by aarnavjindal on 29/01/18.
  */
 
+facebook_url = 'https://www.facebook.com/aarnav.jindal.7';
+github_url = 'https://github.com/devaar100';
+hackerrank_url = 'https://www.hackerrank.com/aarnavjindal100';
+linkedin_url = 'https://www.linkedin.com/in/aarnav-jindal-0b823414a/';
+
 var ground_height;
 var right_btn_on = false, left_btn_on = false;
 
@@ -37,6 +42,7 @@ var lastStart,lastEnd;
 
 var text_shown = false;
 var celebrate = false;
+var thanks;
 
 var GameState = {
     init: function() {
@@ -70,6 +76,7 @@ function createGame() {
     game.add.tileSprite(0, ground_height, starting_ground ,50, 'grass'); // Width set tile width; Height set tile height
     game.physics.arcade.enable(grass);
     grass.body.immovable = true;
+    game.add.text(300,ground_height+60,'Use ARROW KEYS or SCREEN BUTTONS to navigate',{fill:"#fff",font:"35px"})
 
     //Adding mountain
     mountains = game.add.group();
@@ -286,6 +293,12 @@ function createGame() {
     victoryLand.body.immovable = true;
     boat2 = game.add.sprite(lastStart-boat.width - 20,ground_height-90,'jetski2');
     boat2.alpha = 0;
+    game.add.sprite(lastStart+100,ground_height-430,'hut').scale.setTo(1.25);
+    game.add.button(lastStart+875,130,'fb',openfb,this);
+    game.add.button(lastStart+868,230,'github',opengithub,this);
+    game.add.button(lastStart+878,320,'gmail',opengmail,this);
+    game.add.button(lastStart+878,390,'hackerrank',openhackerrank,this);
+    game.add.button(lastStart+875,480,'linkedin',openlinkedin,this);
 
 
     // Adding buttons to game
@@ -302,13 +315,13 @@ function createGame() {
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
     // The stud and its settings
-    stud = game.add.sprite(17500, ground_height - 260, 'dude');
+    stud = game.add.sprite(200, 250, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
     //  stud physics properties. Give the little guy a slight bounce.
     stud.body.bounce.y = 0.2;
-    stud.body.gravity.y = 300;
+    stud.body.gravity.y = 500;
     stud.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
@@ -320,7 +333,6 @@ function createGame() {
     stud.animations.add('beach-right',[16,17],6,true);
     stud.animations.add('celeb-right',[15,19],1,true);
     stones.trackSprite(stud, 25, 100);
-
 
     doggy = game.add.sprite(beachStart+400,ground_height-48,'doggy');
     game.physics.arcade.enable(doggy);
@@ -447,6 +459,8 @@ function createTexts(){
     game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain);
     game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain);
     game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain);
+    thanks = game.add.text(lastStart+350,ground_height-350,'THANKS FOR\nWATCHING',exp_plain);
+    thanks.alpha = 0;
     game.world.bringToTop(stud);
     game.world.bringToTop(doggy);
 }
@@ -579,12 +593,14 @@ function moveRight() {
         restFrame = 15;
         celebrate = true;
     } else if(stud.x+stud.width == lastStart + lastLength/2){
+        restFrame = 15;
         stud.body.velocity.x = 0;
+        game.add.tween(thanks).to({alpha: 1 }, 3500).start();
     } else {
         restFrame = 3;
         stud.animations.play('right');
     }
-    if(stud.x > 500 && stud.x + stud.body.width < game_length) {
+    if(stud.x > 500 && stud.x+stud.width != lastStart + lastLength/2) {
         mountains.forEach(function (item) {
             item.body.velocity.x = 50;
         }, this);
@@ -644,7 +660,7 @@ function moveLeft() {
         restFrame = 2;
         stud.animations.play('left');
     }
-    if(stud.x > 500 ) {
+    if(stud.x > 500 && stud.x+stud.width != lastStart + lastLength/2) {
         mountains.forEach(function (item) {
             item.body.velocity.x = -50;
         }, this);
@@ -658,18 +674,6 @@ function moveLeft() {
     }
 }
 
-function mouseWheel(event) {
-    if(game.input.mouse.wheelDelta>0){
-        stud.x +=60;
-        hero.animations.play('right',15,true);
-    }
-
-    else{
-        hero.x -=60;
-        hero.animations.play('left',15,true);
-    }
-}
-
 function forwardButtonPressed(){
     var ptr = game.input.activePointer ;
     return (ptr.x>=screen_width-100 && ptr.y>=ground_height+20&&ptr.isDown);
@@ -679,3 +683,25 @@ function backButtonPressed(){
     var ptr = game.input.activePointer ;
     return (ptr.x<=100 && ptr.y>=ground_height+20&&ptr.isDown);
 }
+
+function openfb(){
+    var win = window.open(facebook_url);
+    win.focus();
+}
+function opengithub(){
+    var win = window.open(github_url);
+    win.focus();
+}
+function opengmail(){
+    var win = window.open("mailto:developer.aarnav100@gmail.com");
+    win.focus();
+}
+function openhackerrank(){
+    var win = window.open(hackerrank_url);
+    win.focus();
+}
+function openlinkedin(){
+    var win = window.open(linkedin_url);
+    win.focus();
+}
+
