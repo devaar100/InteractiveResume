@@ -347,6 +347,7 @@ function createGame() {
     //  Our controls
     cursors = game.input.keyboard.createCursorKeys();
     heroToFollow = stud;
+    game.world.bringToTop(resume);
 }
 
 function updateState() {
@@ -465,6 +466,7 @@ function createTexts(){
     thanks.alpha = 0;
     game.world.bringToTop(stud);
     game.world.bringToTop(doggy);
+    game.world.bringToTop(resume);
 }
 
 function showInterests(){
