@@ -39,19 +39,8 @@ var loaded = 0;
 var GameState = {
     init: function() {
         console.log("In init");
-        WebFont.load({
-            custom : {
-                families: ['frank_plain','frank_medium']
-            },
-            timeout:1000,
-            fontactive: function(familyName,fvd){
-                console.log(familyName);
-                loaded++;
-                if(loaded==2)
-                    createTexts();
-            },
-        });
         createGame();
+        createTexts();
     },
     update: function() {
         updateState();
