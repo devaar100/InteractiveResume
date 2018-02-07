@@ -33,16 +33,30 @@ var boat,jetski;
 var heroToFollow;
 var interests,interest_shown=false;
 
+var text_shown = false;
+var loaded = 0;
+
 var GameState = {
     init: function() {
         console.log("In init");
+        WebFont.load({
+            custom : {
+                families: ['frank_plain','frank_medium']
+            },
+            timeout:1000,
+            fontactive: function(familyName,fvd){
+                console.log(familyName);
+                loaded++;
+                if(loaded==2)
+                    createTexts();
+            },
+        });
         createGame();
     },
     update: function() {
         updateState();
     }
 };
-
 
 function createGame() {
     ground_height = 4*game_height/5;
@@ -103,12 +117,10 @@ function createGame() {
     schoolEnd = schoolStart + 2100;
     game.add.sprite(schoolStart ,ground_height - 330,'school').scale.setTo(1.5);
 
-    result_font = { font:"20px Roboto",fill:"#000",align:"center"};
+
     results = game.add.group();
     results.create(4750,0,'result');
     results.create(4970,0,'result').scale.setTo(1.2);
-    game.add.text(4800,ground_height-230,'Class 10\n10 CGPA',result_font);
-    game.add.text(5030,ground_height-270,'Class 12\nCBSE 96%',result_font);
 
     game.add.sprite(5300 ,ground_height - 450,'college');
 
@@ -183,7 +195,6 @@ function createGame() {
 
     //Adding level3
     game.add.sprite(9000,-25,'bill-board').scale.setTo(0.7);
-    game.add.text(9035,60,'EXPERIENCE',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
 
     picker_crane = game.add.group();
     for(i=ground_height-90;i+90>0;i-=90){
@@ -204,44 +215,16 @@ function createGame() {
     game.add.sprite(10900,ground_height-280,'worksite-banner');
     game.add.sprite(11300,ground_height-110,'cb');
 
-    exp_plain = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
-    exp_med = { font:"30px frank_medium",fill:"#ffffff",align:"center"};
-    exp_txt = { font:"15px arial", fill: "#ffffff"};
-
-    game.add.text(9740,ground_height-240,'May 2017 - Oct 2017',exp_med);
-    game.add.text(9740,ground_height-210,'NSS-SA',exp_plain);
-    game.add.text(9740,ground_height-160,'Science and Mathematics teacher for secondary classes for\nunder privileged children at NSS Shiksha Abhiyaan',exp_txt);
-
-    game.add.text(9740+600,ground_height-240,'Sep 2017 - Nov 2017',exp_med);
-    game.add.text(9740+600,ground_height-210,'TEACHER ASSISTANT',exp_plain);
-    game.add.text(9740+600,ground_height-160,'Teacher assistant for advanced data structures and algorithms\nAlgo++ course at Coding Blocks',exp_txt);
-
-    game.add.text(9740+1200,ground_height-240,'Dec 2017 - Jan 2018',exp_med);
-    game.add.text(9740+1200,ground_height-210,'ANDROID INTERN',exp_plain);
-    game.add.text(9740+1200,ground_height-160,'Internship in android department at Coding Blocks under able\nguidance of Mr Prateek Narang and Mr Arnav Gupta',exp_txt);
-
     //Adding level4
     game.add.sprite(11700,-25,'bill-board').scale.setTo(0.7);
 
-    game.add.text(11745,60,'PROJECTS',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
 
-    exp_txt.font = "20px arial";
-    exp_txt.fill = "#777777";
-    exp_plain.fill = "#444";
     app_logos = game.add.group();
     app_logos.create(12620,ground_height-145,'dtures-logo');
-    game.add.text(12775,ground_height-330,'DTU RESOURCES',exp_plain);
-    game.add.text(12775,ground_height-280,'An application for all the study material\nand essential information to make\ncollege life hassle free for DTUiites',exp_txt);
     app_logos.create(12158,ground_height-145,'gforms-logo');
-    game.add.text(12290,ground_height-330,'G-FORMS',exp_plain);
-    game.add.text(12290,ground_height-280,'An android application for google\nforms to create, edit google forms\nand manage responses on the go',exp_txt);
     app_logos.create(13125,ground_height-145,'db-security');
-    game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain);
-    game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt);
     game.physics.arcade.enable(app_logos);
     app_logos.create(13725,ground_height-145,'attendance-logo');
-    game.add.text(13900,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
-    game.add.text(13900,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
     game.physics.arcade.enable(app_logos);
 
     //Adding level5
@@ -249,8 +232,6 @@ function createGame() {
     beachEnd = beachStart + beach_ground;
 
     game.add.sprite(beachStart+10,0,'achievements');
-    exp_plain.fill = "#ffffff";
-    game.add.text(beachStart+50,35,'ACHIEVEMENTS',exp_plain);
     sand = game.add.tileSprite(beachStart, ground_height, beach_ground ,(game_height-ground_height)*3/5, 'sand');
     game.add.tileSprite(beachStart, ground_height + (game_height-ground_height)*3/5-6, beach_ground ,6, 'seawave');
     game.add.tileSprite(beachStart, ground_height + (game_height-ground_height)*3/5, beach_ground ,400, 'sea');
@@ -265,26 +246,16 @@ function createGame() {
         item.scale.setTo(1.5);
     });
 
-    exp_txt.fill = '#ffffff';
     game.add.sprite(beachStart+520,ground_height-490,'hut1').scale.setTo(1.25);
     game.add.sprite(beachStart+820,ground_height-270,'wooden-bg').scale.setTo(1.25);
-    game.add.text(beachStart+860,ground_height-250,'ZafinTech Hackathon',exp_med);
-    game.add.text(beachStart+860,ground_height-215,'3RD PRIZE',exp_plain);
-    game.add.text(beachStart+860,ground_height-160,'National level hackathon to design\nuser friendly mobile banking app to\nincrease user engagement',exp_txt);
     game.add.sprite(beachStart+1200,ground_height-200,'statue1').scale.setTo(1.5);
 
     game.add.sprite(beachStart+1480,ground_height-490,'hut2').scale.setTo(1.25);
     game.add.sprite(beachStart+1790,ground_height-270,'wooden-bg').scale.setTo(1.25);
-    game.add.text(beachStart+1830,ground_height-250,'DCB Hackathon',exp_med);
-    game.add.text(beachStart+1830,ground_height-215,'4TH PRIZE',exp_plain);
-    game.add.text(beachStart+1830,ground_height-160,'National level hackathon to design\nsafe, quicker and more efficient\npayment solution',exp_txt);
     game.add.sprite(beachStart+2170,ground_height-200,'statue2').scale.setTo(1.5);
 
     game.add.sprite(beachStart+2520,ground_height-490,'hut3').scale.setTo(1.25);
     game.add.sprite(beachStart+2820,ground_height-270,'wooden-bg').scale.setTo(1.25);
-    game.add.text(beachStart+2860,ground_height-250,'Vistara Hackathon',exp_med);
-    game.add.text(beachStart+2860,ground_height-215,'3RD PRIZE',exp_plain);
-    game.add.text(beachStart+2860,ground_height-160,'National level hackathon to improve\nflight and airport efficiency,\nexperience and management ',exp_txt);
     game.add.sprite(beachStart+3200,ground_height-200,'statue3').scale.setTo(1.5);
 
 
@@ -300,24 +271,19 @@ function createGame() {
     game.add.tileSprite(seaStart, ground_height+16, sea_length ,6, 'seawave');
     game.add.tileSprite(seaStart, ground_height+22, sea_length ,400, 'sea');
     game.add.sprite(beachEnd+10,0,'achievements').scale.setTo(1.15,1);
-    game.add.text(beachEnd+50,35,'OTHER INTERESTS',exp_plain);
 
-    exp_plain.fill = "#000";
     interests = game.add.group();
     i1 = interests.create(seaStart+800,100,'business');
     i1.scale.setTo(0.8);
     i1.alpha = 0;
-    game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain);
 
     i2 = interests.create(seaStart+1400,100,'economics');
     i2.scale.setTo(0.8);
     i2.alpha = 0;
-    game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain);
 
     i3 = interests.create(seaStart+2100,100,'sports');
     i3.scale.setTo(0.8);
     i3.alpha = 0;
-    game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain);
 
     // Adding buttons to game
     leftBtn = game.add.button(40, ground_height + 20, 'leftbtn',moveLeft,this);
@@ -333,7 +299,7 @@ function createGame() {
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
     // The stud and its settings
-    stud = game.add.sprite(17500, ground_height - 260, 'dude');
+    stud = game.add.sprite(500, ground_height - 260, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -398,20 +364,15 @@ function updateState() {
 
     if(!resultShown && stud.x > 4100)
         fallResult();
-
-    if(!birdsShown && stud.x > 6300)
+    else if(!birdsShown && stud.x > 6300)
         flyBirds();
-
-    if(stud.x > 7800 && stud.x < 8600)
+    else if(stud.x > 7800 && stud.x < 8600)
         throwStones();
-
-    if(stud.x > 8800 && stud.x < 14000)
+    else if(stud.x > 8800 && stud.x < 14000)
         stud.body.y = ground_height - 180;
-
-    if(!risen && stud.x > 11800)
+    else if(!risen && stud.x > 11800)
         raiseRisers();
-
-    if(!interest_shown && jetski.x+jetski.width > seaStart+500)
+    else if(!interest_shown && jetski.x+jetski.width > seaStart+500)
         showInterests();
 
     if (cursors.left.isDown || left_btn_on) {
@@ -426,6 +387,60 @@ function updateState() {
         stud.frame = restFrame;
         doggy.frame = dogRestFrame;
     }
+}
+
+function createTexts(){
+    text_shown = true;
+    result_font = { font:"20px Roboto",fill:"#000",align:"center"};
+    game.add.text(4800,ground_height-230,'Class 10\n10 CGPA',result_font);
+    game.add.text(5030,ground_height-270,'Class 12\nCBSE 96%',result_font);
+    game.add.text(9035,60,'EXPERIENCE',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
+    exp_plain = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
+    exp_med = { font:"30px frank_medium",fill:"#ffffff",align:"center"};
+    exp_txt = { font:"15px arial", fill: "#ffffff"};
+
+    game.add.text(9740,ground_height-240,'May 2017 - Oct 2017',exp_med);
+    game.add.text(9740,ground_height-210,'NSS-SA',exp_plain);
+    game.add.text(9740,ground_height-160,'Science and Mathematics teacher for secondary classes for\nunder privileged children at NSS Shiksha Abhiyaan',exp_txt);
+
+    game.add.text(9740+600,ground_height-240,'Sep 2017 - Nov 2017',exp_med);
+    game.add.text(9740+600,ground_height-210,'TEACHER ASSISTANT',exp_plain);
+    game.add.text(9740+600,ground_height-160,'Teacher assistant for advanced data structures and algorithms\nAlgo++ course at Coding Blocks',exp_txt);
+
+    game.add.text(9740+1200,ground_height-240,'Dec 2017 - Jan 2018',exp_med);
+    game.add.text(9740+1200,ground_height-210,'ANDROID INTERN',exp_plain);
+    game.add.text(9740+1200,ground_height-160,'Internship in android department at Coding Blocks under able\nguidance of Mr Prateek Narang and Mr Arnav Gupta',exp_txt);
+
+    game.add.text(11745,60,'PROJECTS',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
+    exp_txt.font = "20px arial";
+    exp_txt.fill = "#777777";
+    exp_plain.fill = "#444";
+    game.add.text(12775,ground_height-330,'DTU RESOURCES',exp_plain);
+    game.add.text(12775,ground_height-280,'An application for all the study material\nand essential information to make\ncollege life hassle free for DTUiites',exp_txt);
+    game.add.text(12290,ground_height-330,'G-FORMS',exp_plain);
+    game.add.text(12290,ground_height-280,'An android application for google\nforms to create, edit google forms\nand manage responses on the go',exp_txt);
+    game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain);
+    game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt);
+    game.add.text(13900,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
+    game.add.text(13900,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
+    exp_plain.fill = "#ffffff";
+    game.add.text(beachStart+50,35,'ACHIEVEMENTS',exp_plain);
+    exp_txt.fill = '#ffffff';
+    game.add.text(beachStart+860,ground_height-250,'ZafinTech Hackathon',exp_med);
+    game.add.text(beachStart+860,ground_height-215,'3RD PRIZE',exp_plain);
+    game.add.text(beachStart+860,ground_height-160,'National level hackathon to design\nuser friendly mobile banking app to\nincrease user engagement',exp_txt);
+    game.add.text(beachStart+1830,ground_height-250,'DCB Hackathon',exp_med);
+    game.add.text(beachStart+1830,ground_height-215,'4TH PRIZE',exp_plain);
+    game.add.text(beachStart+1830,ground_height-160,'National level hackathon to design\nsafe, quicker and more efficient\npayment solution',exp_txt);
+    game.add.text(beachStart+2860,ground_height-250,'Vistara Hackathon',exp_med);
+    game.add.text(beachStart+2860,ground_height-215,'3RD PRIZE',exp_plain);
+    game.add.text(beachStart+2860,ground_height-160,'National level hackathon to improve\nflight and airport efficiency,\nexperience and management ',exp_txt);
+    game.add.text(beachEnd+50,35,'OTHER INTERESTS',exp_plain);
+    exp_plain.fill = "#000";
+    game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain);
+    game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain);
+    game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain);
+    game.world.bringToTop(stud);
 }
 
 function showInterests(){
@@ -478,8 +493,8 @@ function flyBirds() {
     game.physics.arcade.enable(birds);
     birds.forEach(function (item) {
         setTimeout(()=>{
-                game.add.tween(item).to({x:item.body.x-800},400,Phaser.Easing.Default, true).start();
-            },item['group']*400+item['i']*100);
+            game.add.tween(item).to({x:item.body.x-800},400,Phaser.Easing.Default, true).start();
+        },item['group']*400+item['i']*100);
     }, this);
     birdsShown = true;
 }
