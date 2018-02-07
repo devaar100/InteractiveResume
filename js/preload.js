@@ -127,6 +127,7 @@ function loadImages() {
     game.load.image('business', 'assets/business.png');
     game.load.image('economics', 'assets/economics.png');
     game.load.image('sports', 'assets/sports.png');
+    game.load.image('jetski2', 'assets/jetski2.png');
     game.load.spritesheet('sea-boat', 'assets/sea-boat.png', 385, 240);
     game.load.spritesheet('dude', 'assets/dude.png', 200, 200);
     game.load.spritesheet('doggy', 'assets/baddie.png', 48, 48);
