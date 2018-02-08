@@ -2,18 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta property="og:type"    content="website" />
-    <meta property="og:description"  content="Resume of Aarnav Jindal" />
-    <meta property="og:image" content="logo.png" />
-    <meta property="og:title"   content="Fun and Interactive Resume !" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113828475-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-113828475-1');
+    </script>
+    <meta property="og:url"         content="https://aarnav-resume.herokuapp.com/" />
+    <meta property="og:type"        content="website" />
+    <meta property="og:description" content="Resume of Aarnav Jindal" />
+    <meta property="og:image"       content="logo.png" />
+    <meta property="og:title"       content="Fun and Interactive Resume !" />
     <link rel="shortcut icon" href="logo.ico" />
     <link rel="stylesheet" type = "text/css" href = "assets/css/game.css">
     <script src="webfonts.js"></script>
-    <title>Interactive resume of Aarnav Jindal</title>
+    <title>Interactive Resume of Aarnav Jindal</title>
     <style>
         body{
             margin:0;
             padding: 0;
+        }
+        a{
+            z-index: 100;
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 50px;
         }
 
         #container{
@@ -24,6 +40,14 @@
             margin-top: 0;
             z-index: 20;
         }
+        #like{
+            position:absolute;
+            margin-top:10px;
+            margin-left: 10px;
+            z-index: 100;
+
+            background-color: green;
+        }
     </style>
     <script src="phaser.min.js"></script>
     <script src="js/boot.js"></script>
@@ -32,8 +56,26 @@
     <script src="script.js"></script>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=1419333204807362&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div id="container">
     <div id="canvas">
+        <!--<div class="fb-like" -->
+             <!--data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"-->
+             <!--style="margin-left:25px ; margin-top:25px; position:absolute;height:50px;width:200px;color:white;background-color:rgba(255,255,255,0.8);padding:5px;border-radius:5px;"></div>-->
+        <div
+                class="fb-like"
+                data-href="https://www.facebook.com/Aarnav-Jindal-326460211181435/"
+                data-share="true"
+                data-width="200"
+                data-show-faces="true" style="margin-left:25px ; margin-top:25px; position:absolute;height:50px width:200px;color:white;background-color:rgba(255,255,255,0.8);padding:5px;border-radius:5px;">
+        </div>
     </div>
 </div>
 </body>

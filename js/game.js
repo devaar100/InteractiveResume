@@ -317,7 +317,7 @@ function createGame() {
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
     // The stud and its settings
-    stud = game.add.sprite(8000,ground_height - 250, 'dude');
+    stud = game.add.sprite(200,ground_height - 250, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
