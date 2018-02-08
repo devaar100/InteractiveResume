@@ -4,16 +4,15 @@
 var bgColor = '69c3fc';
 var BootState = {
     init: function() {
-        this.game.stage.backgroundColor = bgColor;
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.pageAlignHorizontally = true;
-        this.scale.pageAlignVertically = true;
+        game.stage.backgroundColor = bgColor;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.pageAlignVertically = true;
     },
     preload: function() {
-        this.load.image('fallBG', 'assets/sky.png');
-        this.load.image('cloud','assets/cloud.png');
-        this.load.image('loader','assets/bar.png');
-        //this.load.spritesheet('skyDiving', 'assets/aarnav_skydiving.png', 330, 506,2);
+        game.load.image('fallBG', 'assets/sky.png');
+        game.load.image('cloud','assets/cloud.png');
+        game.load.image('loader','assets/bar.png');
     },
     create: function() {
         this.state.start('PreloadState');

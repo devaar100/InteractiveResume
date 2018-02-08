@@ -5,13 +5,31 @@
     <link rel="stylesheet" type = "text/css" href = "assets/css/game.css">
     <script src="webfonts.js"></script>
     <title>Interactive resume of Aarnav Jindal</title>
-    <script src="phaser.js"></script>
+    <style>
+        body{
+            margin:0;
+            padding: 0;
+        }
+
+        #container{
+            position:relative;
+        }
+        #canvas{
+            position:fixed;
+            margin-top: 0;
+            z-index: 20;
+        }
+    </style>
+    <script src="phaser.min.js"></script>
     <script src="js/boot.js"></script>
     <script src="js/preload.js"></script>
     <script src="js/game.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
-<div id="game_body"></div>
+<div id="container">
+    <div id="canvas">
+    </div>
+</div>
 </body>
 </html>

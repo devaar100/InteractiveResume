@@ -55,7 +55,7 @@ var GameState = {
 };
 
 function createGame() {
-    ground_height = 4*game_height/5;
+    ground_height = 7*game_height/10+80;
 
 
     game.world.setBounds(0,0,game_length,game_height);
@@ -66,8 +66,8 @@ function createGame() {
 
     //  Here we'll create clouds evenly spaced apart
     for (var i = 100; i < game_length; i+= 1200) {
-        clouds.create(i + 600, 80, 'cloud');
-        clouds.create(i, 200, 'cloud');
+        clouds.create(i + 600, ground_height-500, 'cloud');
+        clouds.create(i, ground_height-500+120, 'cloud');
     }
     game.physics.arcade.enable(clouds);
     resume = game.add.button(screen_width-140,20,'resume',downloadResume,this);
@@ -78,7 +78,7 @@ function createGame() {
     game.add.tileSprite(0, ground_height, starting_ground ,50, 'grass'); // Width set tile width; Height set tile height
     game.physics.arcade.enable(grass);
     grass.body.immovable = true;
-    game.add.text(300,ground_height+60,'Use ARROW KEYS or SCREEN BUTTONS to navigate',{fill:"#fff",font:"35px"})
+    game.add.text(250,ground_height+60,'Use ARROW KEYS or SCREEN BUTTONS to navigate',{fill:"#fff",font:"35px Arial"})
 
     //Adding mountain
     mountains = game.add.group();
@@ -304,20 +304,20 @@ function createGame() {
 
 
     // Adding buttons to game
-    leftBtn = game.add.button(40, ground_height + 20, 'leftbtn',moveLeft,this);
+    leftBtn = game.add.button(40, game_height - 90, 'leftbtn',moveLeft,this);
     leftBtn.fixedToCamera = true;
     leftBtn.scale.setTo(1);
     leftBtn.onInputDown.add(leftBtnClicked,this);
     leftBtn.onInputUp.add(leftBtnNotClicked,this);
 
-    rightBtn = game.add.button(screen_width - 100, ground_height + 20, 'rightbtn',moveRight,this);
+    rightBtn = game.add.button(screen_width - 100, game_height - 90, 'rightbtn',moveRight,this);
     rightBtn.fixedToCamera = true;
     rightBtn.scale.setTo(1);
     rightBtn.onInputDown.add(rightBtnClicked,this);
     rightBtn.onInputUp.add(rightBtnNotClicked,this);
 
     // The stud and its settings
-    stud = game.add.sprite(200, 250, 'dude');
+    stud = game.add.sprite(8000,ground_height - 250, 'dude');
     stud.scale.setTo(0.9);
     game.physics.arcade.enable(stud); //  We need to enable physics on the stud
 
@@ -434,35 +434,39 @@ function createTexts(){
     game.add.text(9740+1200,ground_height-160,'Internship in android department at Coding Blocks under able\nguidance of Mr Prateek Narang and Mr Arnav Gupta',exp_txt);
 
     game.add.text(11745,60,'PROJECTS',{ font:"45px frank_plain",fill:"#ffffff",align:"center"});
-    exp_txt.font = "20px arial";
-    exp_txt.fill = "#777777";
-    exp_plain.fill = "#444";
-    game.add.text(12775,ground_height-330,'DTU RESOURCES',exp_plain);
-    game.add.text(12775,ground_height-280,'An application for all the study material\nand essential information to make\ncollege life hassle free for DTUiites',exp_txt);
-    game.add.text(12290,ground_height-330,'G-FORMS',exp_plain);
-    game.add.text(12290,ground_height-280,'An android application for google\nforms to create, edit google forms\nand manage responses on the go',exp_txt);
-    game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain);
-    game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt);
-    game.add.text(13900,ground_height-330,'ATTENDANCE MANAGER',exp_plain);
-    game.add.text(13900,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt);
-    exp_plain.fill = "#ffffff";
-    game.add.text(beachStart+50,35,'ACHIEVEMENTS',exp_plain);
-    exp_txt.fill = '#ffffff';
+    exp_txt2 = { font:"15px arial", fill: "#ffffff"};
+    exp_txt2.font = "20px arial";
+    exp_txt2.fill = "#777777";
+    exp_plain2 = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
+    exp_plain2.fill = "#444";
+    game.add.text(12775,ground_height-330,'DTU RESOURCES',exp_plain2);
+    game.add.text(12775,ground_height-280,'An application for all the study material\nand essential information to make\ncollege life hassle free for DTUiites',exp_txt2);
+    game.add.text(12290,ground_height-330,'G-FORMS',exp_plain2);
+    game.add.text(12290,ground_height-280,'An android application for google\nforms to create, edit google forms\nand manage responses on the go',exp_txt2);
+    game.add.text(13300,ground_height-330,'DATABASE SECURITY',exp_plain2);
+    game.add.text(13300,ground_height-280,'An in depth analysis in database security\nissues and using machine learing to improve\nexisting intrusion detection systems under\nMs Indu Singh\nAssistant Professor DTU',exp_txt2);
+    game.add.text(13900,ground_height-330,'ATTENDANCE MANAGER',exp_plain2);
+    game.add.text(13900,ground_height-280,'An android application with an environment\nfriendly motive to save trees by replacing\nattendance registers in school\nFounder and Co-owner',exp_txt2);
+    exp_plain3 = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
+    exp_plain3.fill = "#ffffff";
+    game.add.text(beachStart+50,35,'ACHIEVEMENTS',exp_plain3);
+    exp_txt3 = { font:"20px arial", fill: "#ffffff"};
+    exp_txt3.fill = '#ffffff';
     game.add.text(beachStart+860,ground_height-250,'ZafinTech Hackathon',exp_med);
-    game.add.text(beachStart+860,ground_height-215,'3RD PRIZE',exp_plain);
-    game.add.text(beachStart+860,ground_height-160,'National level hackathon to design\nuser friendly mobile banking app to\nincrease user engagement',exp_txt);
+    game.add.text(beachStart+860,ground_height-215,'3RD PRIZE',exp_plain3);
+    game.add.text(beachStart+860,ground_height-160,'National level hackathon to design\nuser friendly mobile banking app to\nincrease user engagement',exp_txt3);
     game.add.text(beachStart+1830,ground_height-250,'DCB Hackathon',exp_med);
-    game.add.text(beachStart+1830,ground_height-215,'4TH PRIZE',exp_plain);
-    game.add.text(beachStart+1830,ground_height-160,'National level hackathon to design\nsafe, quicker and more efficient\npayment solution',exp_txt);
+    game.add.text(beachStart+1830,ground_height-215,'4TH PRIZE',exp_plain3);
+    game.add.text(beachStart+1830,ground_height-160,'National level hackathon to design\nsafe, quicker and more efficient\npayment solution',exp_txt3);
     game.add.text(beachStart+2860,ground_height-250,'Vistara Hackathon',exp_med);
-    game.add.text(beachStart+2860,ground_height-215,'3RD PRIZE',exp_plain);
-    game.add.text(beachStart+2860,ground_height-160,'National level hackathon to improve\nflight and airport efficiency,\nexperience and management ',exp_txt);
-    game.add.text(beachEnd+50,35,'OTHER INTERESTS',exp_plain);
-    exp_plain.fill = "#000";
-    game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain);
-    game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain);
-    game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain);
-    thanks = game.add.text(lastStart+350,ground_height-350,'THANKS FOR\nWATCHING',exp_plain);
+    game.add.text(beachStart+2860,ground_height-215,'3RD PRIZE',exp_plain3);
+    game.add.text(beachStart+2860,ground_height-160,'National level hackathon to improve\nflight and airport efficiency,\nexperience and management ',exp_txt3);
+    game.add.text(beachEnd+50,35,'OTHER INTERESTS',exp_plain3);
+    exp_plain4 = { font:"40px frank_plain",fill:"#ffffff",align:"center"};
+    game.add.text(seaStart+1050,110,'BUSINESS\nSTUDIES',exp_plain4);
+    game.add.text(seaStart+1680,100,'ECONOMICS',exp_plain4);
+    game.add.text(seaStart+2300,140,'SPORTS\nLOVER',exp_plain4);
+    thanks = game.add.text(lastStart+350,ground_height-350,'THANKS FOR\nWATCHING',exp_plain4);
     thanks.alpha = 0;
     game.world.bringToTop(stud);
     game.world.bringToTop(doggy);
@@ -526,6 +530,7 @@ function flyBirds() {
 }
 
 function throwStones(){
+    console.log("In here");
     if(hitCount>=5)
         return;
     if(targets[hitCount].x+100<game.camera.x+screen_width)
@@ -679,14 +684,15 @@ function moveLeft() {
 }
 
 function forwardButtonPressed(){
-    var ptr = game.input.activePointer ;
-    return (ptr.x>=screen_width-100 && ptr.y>=ground_height+20&&ptr.isDown);
+    var ptr = game.input.activePointer;
+    return (ptr.x>=screen_width-150 && ptr.y>=game_height-150&&ptr.isDown);
 }
 
 function backButtonPressed(){
     var ptr = game.input.activePointer ;
-    return (ptr.x<=100 && ptr.y>=ground_height+20&&ptr.isDown);
+    return (ptr.x<=150 && ptr.y>=game_height-150&&ptr.isDown);
 }
+
 
 function openfb(){
     var win = window.open(facebook_url);
