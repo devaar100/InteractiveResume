@@ -13,6 +13,7 @@ var BootState = {
         game.load.image('fallBG', 'assets/sky.png');
         game.load.image('cloud','assets/cloud.png');
         game.load.image('loader','assets/bar.png');
+        game.load.spritesheet('plane','assets/plane.png',310,150);
     },
     create: function() {
         this.state.start('PreloadState');

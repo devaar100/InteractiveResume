@@ -1,6 +1,7 @@
 /**
  * Created by aarnavjindal on 30/01/18.
  */
+var plane;
 var PreloadState = {
     preload: function() {
         loadImages();
@@ -41,7 +42,6 @@ var PreloadState = {
         this.clouds.enableBody = true;
         this.clouds.setAll('body.velocity.y', -20);
 
-
         this.preloadBar = this.add.sprite(this.game.world.centerX,120, 'loader');
         this.preloadBar.anchor.setTo(0.5);
         this.preloadBar.scale.setTo(1,2);
@@ -49,12 +49,22 @@ var PreloadState = {
         var style = { fill: '#fff'};
         var loading_text = this.game.add.text(xmid,123,"LOADING...", style);
         loading_text.anchor.setTo(0.5,0.5);
-    },
-    loadUpdate: function () {
 
+        plane = game.add.sprite(xmid-150,ymid-100,'plane');
+        plane.animations.add('fly',[0,1],2,true).play('fly');
     },
     create: function() {
         this.state.start('GameState');
+    },
+    update: function(){
+        ptr = game.input.activePointer;
+        if(ptr.isDown) {
+            plane.x = ptr.x-plane.width;
+            plane.y = ptr.y-plane.height;
+        }
+        ptr =  game.input.mousePointer;
+        plane.x = ptr.x-plane.width;
+        plane.y = ptr.y-plane.height;
     }
 };
 
