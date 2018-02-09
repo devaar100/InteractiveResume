@@ -40,13 +40,8 @@
             margin-top: 0;
             z-index: 20;
         }
-        #like{
-            position:absolute;
-            margin-top:10px;
-            margin-left: 10px;
-            z-index: 100;
-
-            background-color: green;
+        #resume{
+            cursor: pointer;
         }
     </style>
     <script src="phaser.min.js"></script>
@@ -66,12 +61,16 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 <div id="container">
     <div id="canvas">
-                <div
+        <div
                 class="fb-like"
                 data-href="https://www.facebook.com/Aarnav-Jindal-326460211181435/"
                 data-share="true"
                 data-width="200"
                 data-show-faces="true" style="margin-left:25px ; margin-top:25px; position:absolute;height:50px width:200px;color:white;background-color:rgba(255,255,255,0.8);padding:5px;border-radius:5px;">
+
+        </div>
+        <div  style="right:20px ; top:20px; position:absolute;">
+            <img src="assets/resume.png" id="resume">
         </div>
     </div>
 </div>

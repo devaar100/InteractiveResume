@@ -70,8 +70,6 @@ function createGame() {
         clouds.create(i, ground_height-500+120, 'cloud');
     }
     game.physics.arcade.enable(clouds);
-    resume = game.add.button(screen_width-140,20,'resume',downloadResume,this);
-    resume.fixedToCamera = true;
 
     // Here we create the ground.
     grass = game.add.tileSprite(0, ground_height + 30 , starting_ground ,1200, 'ground'); // Width set tile width; Height set tile height
@@ -348,7 +346,6 @@ function createGame() {
     //  Our controls
     cursors = game.input.keyboard.createCursorKeys();
     heroToFollow = stud;
-    game.world.bringToTop(resume);
 }
 
 function updateState() {
@@ -471,7 +468,6 @@ function createTexts(){
     thanks.alpha = 0;
     game.world.bringToTop(stud);
     game.world.bringToTop(doggy);
-    game.world.bringToTop(resume);
 }
 
 function showInterests(){
@@ -714,8 +710,5 @@ function openhackerrank(){
 function openlinkedin(){
     var win = window.open(linkedin_url);
     win.focus();
-}
-function downloadResume(){
-    // Download reusme
 }
 

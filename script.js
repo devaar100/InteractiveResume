@@ -1,7 +1,7 @@
 /**
  * Created by aarnavjindal on 30/01/18.
  */
-var loaded = 0;
+resumeDownloadURL ='https://firebasestorage.googleapis.com/v0/b/attendancemanager-6fbf7.appspot.com/o/Aarnav\'s%20Resume.pdf?alt=media&token=5255dd9b-b62e-457f-96e1-1dca1ad2a9e3';
 WebFont.load({
     custom : {
         families: ['frank_plain','frank_medium']
@@ -9,7 +9,6 @@ WebFont.load({
     timeout:1000,
     fontactive: function(familyName,fvd){
         console.log(familyName);
-        loaded++;
     },
 });
 var game_height = window.innerHeight, game_length = 22600,
@@ -25,3 +24,10 @@ game.state.add('BootState',BootState);
 game.state.add('PreloadState',PreloadState);
 game.state.add('GameState',GameState);
 game.state.start('BootState');
+
+window.onload = ()=>{
+    resume = document.getElementById('resume');
+    resume.onclick = ()=>{
+        window.open(resumeDownloadURL);
+    };
+};
