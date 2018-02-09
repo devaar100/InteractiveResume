@@ -268,7 +268,7 @@ function createGame() {
     jetski.animations.add('right',[2,3],6,true);
     game.physics.arcade.enable(jetski);
     game.add.tileSprite(seaStart, ground_height+16, sea_length ,6, 'seawave');
-    game.add.tileSprite(seaStart, ground_height+22, sea_length ,400, 'sea');
+    game.add.tileSprite(seaStart, ground_height+22, sea_length ,600, 'sea');
     game.add.sprite(beachEnd+10,0,'achievements').scale.setTo(1.15,1);
 
     interests = game.add.group();
@@ -296,11 +296,12 @@ function createGame() {
     boat2 = game.add.sprite(lastStart-boat.width - 20,ground_height-90,'jetski2');
     boat2.alpha = 0;
     game.add.sprite(lastStart+100,ground_height-430,'hut').scale.setTo(1.25);
-    game.add.button(lastStart+875,130,'fb',openfb,this);
-    game.add.button(lastStart+868,230,'github',opengithub,this);
-    game.add.button(lastStart+878,320,'gmail',opengmail,this);
-    game.add.button(lastStart+878,390,'hackerrank',openhackerrank,this);
-    game.add.button(lastStart+875,480,'linkedin',openlinkedin,this);
+    shift = ground_height - 580;
+    game.add.button(lastStart+875,shift + 130,'fb',openfb,this);
+    game.add.button(lastStart+868,shift + 230,'github',opengithub,this);
+    game.add.button(lastStart+878,shift + 320,'gmail',opengmail,this);
+    game.add.button(lastStart+878,shift + 390,'hackerrank',openhackerrank,this);
+    game.add.button(lastStart+875,shift + 480,'linkedin',openlinkedin,this);
 
 
     // Adding buttons to game
